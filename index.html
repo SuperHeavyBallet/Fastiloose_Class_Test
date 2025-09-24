@@ -6,8 +6,56 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <script src="js.js"></script>
+    <link href="style.css" rel="stylesheet">
 </head>
 <body>
-    <div id="cardHolder"></div>
+    <div id="cardHolder" class="card-holder"></div>
+
+
+    <div class="bottom-tray">
+    <div>
+        <button id="attackButton">
+            ATTACK
+        </button>
+
+        <div id="card1Roll">00</div>
+            <div id="card2Roll">00</div>
+            <h3 id="hitResult">HIT</h3>
+    </div>
+
+    <div id="boardContainer" class="board-container">
+
+    </div>
+
+
+    <div id="chosenClasses" class="chosenClasses">
+        <div id="class1" class="chosenCard" data-id="1">Class 1</div>
+        <h1> >> </h1>
+        <div id="class2" class="chosenCard" data-id="2">Class 2</div>
+    </div>
+
+    <div>
+        <h3>Rules and Modifiers</h3>
+        <h4>Distance / Attack</h4>
+        <p>Duelists / Brawlers: Adjacent Attack +1 Hit</p>
+        <p>Max Range Attack: -1 Hit</p>
+        <p>Duelists: Reroll Failed Attacks at -1 Hit</p>
+        <p>Brawlers: Sweep: Splash, Strike: No Splash, +1 Hit</p>
+
+        <h4>Line of Sight</h4>
+        <p>Archers: No LoS - 0 Hit</p>
+        <p>Bombers: No LoS - -1 Hit</p>
+
+        <h4>Terrain</h4>
+        <p>Low Terrain: Block Movement</p>
+        <p>High Terrain: Block Line of Sight</p>
+
+        <h4>Splash Damage</h4>
+        <p>Friendly Fire: Splash Also Hits Allies</p>
+        <p>Strict Type: Plus Shaped Hit Zone, Base + 4 Squares</p>
+        <p>Loose Type: Square Shapes Hit Zone, Base + 8 Squares</p>
+    
+    </div>
+</div>
 </body>
 </html>

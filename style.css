@@ -1,1 +1,82 @@
 
+.card-holder{
+    background-color: aqua;
+    display: flex;
+    flex-direction: row;
+}
+
+.class-card{
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 1rem;
+    margin: 1rem;
+    background-color: antiquewhite;
+}
+
+
+.class-card:hover{
+    cursor: pointer;
+}
+.chosenClasses{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.chosenCard{
+    display: flex;
+    flex-direction: column;
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 1rem;
+    margin: 1rem;
+    background-color: antiquewhite;
+}
+
+.chosenCard:hover{
+    cursor: pointer;
+}
+
+.selected{
+    border: 2px solid red;
+}
+
+.bottom-tray{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.board-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.board-row{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.board-square{
+    border: 1px solid black;
+    width: 2rem;
+    height: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.low-terrain{
+    background-color: rgb(106, 128, 85);
+}
+.high-terrain{
+    background-color: rgb(63, 63, 63);
+}
+.empty{
+    background-color: rgb(72, 182, 96);
+}
