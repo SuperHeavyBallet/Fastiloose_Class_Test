@@ -6,9 +6,9 @@ const ATK_SPREAD = Object.freeze({ NARROW : "narrow" , BROAD : "broad"});
 
 const BASE_CLASS = Object.freeze({
 
-    health : 4,
+    health : 5,
     move: 2,           // max squares per move
-    atk_Range: 5,     // max squares for attacks
+    atk_Range: 4,     // max squares for attacks
     atk_Splash: 0  ,   // atk_Splash radius (0 or 1 = single-target)
     atk_Damage: 1, // Damage Per Hit
     atk_Hit: 3,
@@ -292,13 +292,18 @@ function makeClass({ weight, range, spread, name }) {
         classCard.dataset.classID = newClass;
 
         let className = createStat("h3", newClass.name, classCard);
-        let classHealth = createStat("p", "Health: " + newClass.stats.health, classCard);
-        let classMove = createStat("p", "Move: " + newClass.stats.move, classCard);
-        let classAttack_Damage = createStat("p" , "Atk_Damage: " + newClass.stats.atk_Damage,classCard);
-        let classSplash = createStat("p", "Atk_Splash: " + newClass.stats.atk_Splash, classCard);
-        let classAttack_Range = createStat("p", "Atk Range: " + newClass.stats.atk_Range, classCard);
-        let classHit = createStat("p", "Hit: " + newClass.stats.atk_Hit, classCard);
-        let classEvade = createStat("p", "Evade: " + newClass.stats.atk_Evade, classCard);
+        let classHealth = createStat("p", "HLTH: " + newClass.stats.health, classCard);
+        let classMove = createStat("p", "MOV: " + newClass.stats.move, classCard);
+        let classHit = createStat("p", "HIT: " + newClass.stats.atk_Hit, classCard);
+        let classEvade = createStat("p", "DEF: " + newClass.stats.atk_Evade, classCard);
+
+        let classAttack_Damage = createStat("p" , "DAMAGE: " + newClass.stats.atk_Damage,classCard);
+        let classAttack_Range = createStat("p", "RANGE: " + newClass.stats.atk_Range, classCard);
+        let splashType = newClass.stats.atk_Splash === 0 ? "." : "+";
+        
+
+        let classSplash = createStat("p", "SPLASH: " + splashType, classCard);
+       
 
         classCard.addEventListener('click', (e) =>
         {
