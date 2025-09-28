@@ -80,3 +80,22 @@
 .empty{
     background-color: rgb(72, 182, 96);
 }
+
+
+.fate-deck{
+    border: 1px solid black;
+    border-radius: 5px;
+
+    width: 15rem;
+    height: 20rem;
+    padding: 1rem;
+    display: flex;
+
+    flex-direction: column;
+    align-items: center;
+    justify-content: start;
+}
+
+.fate-deck:hover{
+    cursor: pointer;
+}

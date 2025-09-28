@@ -179,28 +179,28 @@ function makeClass({ weight, range, spread, name }) {
     weight: WEIGHT.HEAVY,
     range:  ATK_RANGE.LONG,
     spread: ATK_SPREAD.NARROW,
-    name:   "Heavy Archer"
+    name:   "Heavy Marksman"
   });
 
   const lightArcher = makeClass({
     weight: WEIGHT.LIGHT,
     range: ATK_RANGE.LONG,
     spread: ATK_SPREAD.NARROW,
-    name: "Light Archer"
+    name: "Light Marksman"
   });
 
   const heavyBomber = makeClass({
     weight: WEIGHT.HEAVY,
     range:  ATK_RANGE.LONG,
     spread: ATK_SPREAD.BROAD,
-    name:   "Heavy Bomber"
+    name:   "Heavy Grenadier"
   });
 
   const lightBomber = makeClass({
     weight: WEIGHT.LIGHT,
     range:  ATK_RANGE.LONG,
     spread: ATK_SPREAD.BROAD,
-    name:   "Light Bomber"
+    name:   "Light Grenadier"
   });
 
   const heavyDuelist = makeClass({
@@ -221,14 +221,14 @@ function makeClass({ weight, range, spread, name }) {
     weight: WEIGHT.HEAVY,
     range:  ATK_RANGE.CLOSE,
     spread: ATK_SPREAD.BROAD,
-    name:   "Heavy Brawler"
+    name:   "Heavy Bruiser"
   });
 
   const lightBrawler = makeClass({
     weight: WEIGHT.LIGHT,
     range:  ATK_RANGE.CLOSE,
     spread: ATK_SPREAD.BROAD,
-    name:   "Light Brawler"
+    name:   "Light Bruiser"
   });
 
  
@@ -278,8 +278,46 @@ function makeClass({ weight, range, spread, name }) {
 
     UpdateSelectedCard(chosen[1], true);
 
+    const fateDeckStack = document.getElementById("fateDeck");
+    const fateDeckTitle = document.getElementById("fateDeckTitle");
+    const fateDeckGroup = document.getElementById("fateDeckGroup");
+    const fateDeckDescription = document.getElementById("fateDeckDescription");
+
+    let fateDeckCards;
+
+    function getFateDeck() {
+        return fetch('resources/fateDeckCards.json').then(res => res.json());
+      }
+      
+      // Usage
+      getFateDeck().then(deck => {
+        fateDeckCards = deck.cards;
+        let deckSize  = fateDeckCards.length
+
+        fateDeckStack.addEventListener("click", (e) => {
+            e.preventDefault();
+            let newCardNumber = ChooseFateCard(deckSize);
+            let chosenCard = fateDeckCards[newCardNumber]
+    
+            fateDeckGroup.textContent = `${chosenCard.group}`;
+            fateDeckTitle.textContent = `${chosenCard.name}`;
+            fateDeckDescription.textContent = `${chosenCard.description}`;
+    
+    
+        });
+
+      });
+
+    
+
+    
 
 
+    function ChooseFateCard(deckSize)
+    {
+        let number = 1 + Math.floor(Math.random()*deckSize);
+        return number;
+    }
 
     function createNewCard(newClass)
     {

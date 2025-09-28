@@ -1,0 +1,161 @@
+{
+    "cards": [
+      {
+        "name": "Well, That Was Disappointing",
+        "group": "Null Effects",
+        "rarity": "Common",
+        "description": "Your party's senses stand to alert - but it was just a frog. Nothing happens."
+      },
+      {
+        "name": "Useless, But Safe",
+        "group": "Null Effects",
+        "rarity": "Common",
+        "description": "A hurricane blasts through your group and misses every fighter. Nothing happens."
+      },
+      {
+        "name": "A Sigh of Relief",
+        "group": "Null Effects",
+        "rarity": "Common",
+        "description": "Absolutely nothing of any danger lurks anywhere. Nothing happens."
+      },
+      {
+        "name": "Your Band Survives",
+        "group": "Null Effects",
+        "rarity": "Common",
+        "description": "Time goes on. Nothing happens."
+      },
+      {
+        "name": "A Mild Drizzle",
+        "group": "Null Effects",
+        "rarity": "Common",
+        "description": "A few drops fall on the heads of your fighters. Nothing happens."
+      },
+      {
+        "name": "A Pleasant Breeze",
+        "group": "Null Effects",
+        "rarity": "Common",
+        "description": "A gentle breeze calms your nerves. Nothing happens."
+      },
+      {
+        "name": "Distant Wolves Howling",
+        "group": "Null Effects",
+        "rarity": "Common",
+        "description": "You hear them, but you can’t see them. Nothing happens."
+      },
+      {
+        "name": "Bells Ring Elsewhere",
+        "group": "Null Effects",
+        "rarity": "Common",
+        "description": "Someone else lives or dies. Nothing happens."
+      },
+      {
+        "name": "A Favourable Wind",
+        "group": "World Effect",
+        "rarity": "Uncommon",
+        "description": "All of the Card Drawers’ fighters gain a free 1 square movement in one global direction of the Card Drawers’ choice. If blocked by teammates or the battlefield’s edge, they do not move."
+      },
+      {
+        "name": "A Strong Gust",
+        "group": "World Effect",
+        "rarity": "Uncommon",
+        "description": "Choose one straight line across the board (edge to edge). Each fighter on that line is shifted by 1 square in a single direction of the Card Drawer’s choosing. If blocked by teammates or the battlefield’s edge, they do not move."
+      },
+      {
+        "name": "Lightning Strikes",
+        "group": "World Effect",
+        "rarity": "Uncommon",
+        "description": "Choose one straight line across the board (edge to edge). Each fighter on that line takes a fixed HIT: 6 attack and must roll a defence against it, DAMAGE: 1 if successful."
+      },
+      {
+        "name": "Tables Turn",
+        "group": "World Effect",
+        "rarity": "Uncommon",
+        "description": "The Players switch order following this Fate Deck Phase. The current Player 2(Follower) will now be the first to attack and move in the following turns, unless this card is drawn again."
+      },
+      {
+        "name": "Thick Fog",
+        "group": "World Effect",
+        "rarity": "Uncommon",
+        "description": "All attacks suffer –1 HIT until the next Fate Deck draw."
+      },
+      {
+        "name": "Sudden Silence",
+        "group": "World Effect",
+        "rarity": "Uncommon",
+        "description": "No Fate Cards are drawn next round."
+      },
+      {
+        "name": "A Dividing Earthquake",
+        "group": "World Effect",
+        "rarity": "Rare",
+        "description": "All fighters are pushed 1 square toward their starting edge. If blocked by teammates or the battlefield’s edge, they do not move."
+      },
+      {
+        "name": "Asteroid Strike",
+        "group": "World Effect",
+        "rarity": "Rare",
+        "description": "All characters on the board take a fixed HIT: 6 attack and must roll a defence against it, DAMAGE: 1 if successful."
+      },
+      {
+        "name": "The Grave Call",
+        "group": "World Effect",
+        "rarity": "Rare",
+        "description": "One dead fighter may be returned to the battlefield with 1 HEALTH stat. If no dead fighters are available, the player must choose a fighter on their team to take a fixed HIT: 5 attack and must roll a defence against it, DAMAGE: 1 if successful."
+      },
+      {
+        "name": "A Healthy Boost",
+        "group": "Fighter Effects",
+        "rarity": "Common",
+        "description": "One of your fighters receives +1 HEALTH."
+      },
+      {
+        "name": "Battle Cry",
+        "group": "Fighter Effects",
+        "rarity": "Common",
+        "description": "All of your fighters gain +1 HIT until the end of this round."
+      },
+      {
+        "name": "Momentary Weakness",
+        "group": "Fighter Effects",
+        "rarity": "Common",
+        "description": "All of your fighters gain -1 DEF until the end of this round."
+      },
+      {
+        "name": "Double Tap",
+        "group": "Fighter Effects",
+        "rarity": "Common",
+        "description": "One of your fighters may attack twice in this turn."
+      },
+      {
+        "name": "Shield Wall",
+        "group": "Fighter Effects",
+        "rarity": "Common",
+        "description": "One fighter of your choice gains +2 DEF until their next defence roll."
+      },
+      {
+        "name": "Desperation",
+        "group": "Fighter Effects",
+        "rarity": "Common",
+        "description": "One fighter on 1 HEALTH gains +2 HIT until the end of this round."
+      },
+      {
+        "name": "Not Yet, You",
+        "group": "Fighter Effects",
+        "rarity": "Rare",
+        "description": "A single fighter at 1 HEALTH returns to full Base HEALTH stat OR receives +2 HEALTH."
+      },
+      {
+        "name": "Fresh Air Heals All",
+        "group": "Fighter Effects",
+        "rarity": "Rare",
+        "description": "All fighters on the field (Both Player Teams) receive +1 HEALTH."
+      },
+      {
+        "name": "Pre-Emptive Strike",
+        "group": "Fighter Effects",
+        "rarity": "Rare",
+        "description": "This player attacks first for this round. If the Drawer of this card is already first, one fighter is allowed two attacks this turn with separate HIT and DEF rolls, but only on one target. This effect overrides any other turn-altering effects."
+      }
+    ]
+  }
+  
