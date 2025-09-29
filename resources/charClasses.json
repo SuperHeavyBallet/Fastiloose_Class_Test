@@ -1,0 +1,53 @@
+{
+    "classes" : [
+        {
+            "name" : "Heavy Marksman",
+            "weight" : "heavy",
+            "range" : "long",
+            "spread" : "narrow"
+        },
+        {
+            "name" : "Light Marksman",
+            "weight" : "light",
+            "range" : "long",
+            "spread" : "narrow"
+        },
+        {
+            "name" : "Heavy Grenadier",
+            "weight" : "heavy",
+            "range" : "long",
+            "spread" : "broad"
+        },
+        {
+            "name" : "Light Grenadier",
+            "weight" : "light",
+            "range" : "long",
+            "spread" : "broad"
+        },
+        {
+            "name" : "Heavy Duelist",
+            "weight" : "heavy",
+            "range" : "close",
+            "spread" : "narrow"
+        },
+        {
+            "name" : "Light Duelist",
+            "weight" : "light",
+            "range" : "close",
+            "spread" : "narrow"
+        },
+        {
+            "name" : "Heavy Bruiser",
+            "weight" : "heavy",
+            "range" : "close",
+            "spread" : "broad"
+        },
+        {
+            "name" : "Light Bruiser",
+            "weight" : "light",
+            "range" : "close",
+            "spread" : "broad"
+        }
+
+    ]
+}

@@ -235,6 +235,7 @@ function makeClass({ weight, range, spread, name }) {
 
   document.addEventListener('DOMContentLoaded', () =>
   {
+    /*
     createNewCard(heavyArcher);
     createNewCard(lightArcher);
     createNewCard(heavyBomber);
@@ -242,10 +243,10 @@ function makeClass({ weight, range, spread, name }) {
     createNewCard(heavyDuelist);
     createNewCard(lightDuelist);
     createNewCard(heavyBrawler);
-    createNewCard(lightBrawler);
+    createNewCard(lightBrawler);*/
 
     const allBoardSquares = generateNewBoard(8);
-    console.log(allBoardSquares);
+  
 
     
    // DOM elements (never reassign these)
@@ -283,7 +284,53 @@ function makeClass({ weight, range, spread, name }) {
     const fateDeckGroup = document.getElementById("fateDeckGroup");
     const fateDeckDescription = document.getElementById("fateDeckDescription");
 
-    let fateDeckCards;
+    function getCharClasses(){
+        return fetch('resources/charClasses.json').then(res => res.json());
+    }
+    const toKey = s => String(s).trim().toUpperCase();
+
+    let characterClasses;
+
+    getCharClasses().then(allClasses => {
+        characterClasses = allClasses.classes;
+
+        characterClasses.forEach((charClass) => {
+           
+
+
+           
+            
+            
+         
+            let newClass = makeClass(
+                {
+                    weight: WEIGHT[toKey(charClass.weight)],
+                    range: ATK_RANGE[toKey(charClass.range)],
+                    spread: ATK_SPREAD[toKey(charClass.spread)],
+                    name: charClass.name
+                }
+            );
+
+            createNewCard(newClass);
+
+        
+        });
+            
+
+   
+
+    })
+
+    let fateDeckCards_All = [];
+    let rareFateDeckCards = [];
+    let uncommonFateDeckCards = [];
+    let commonFateDeckCards = [];
+    const STANDARD_DECK = { rare : 1, uncommon : 3, common : 5};
+    const STANDARD_DECK_TYPES = {null : 8, fighter : 10, world : 6};
+
+    let allNullCards = [];
+    let allWorldCards = [];
+    let allFighterCards = [];
 
     function getFateDeck() {
         return fetch('resources/fateDeckCards.json').then(res => res.json());
@@ -291,13 +338,108 @@ function makeClass({ weight, range, spread, name }) {
       
       // Usage
       getFateDeck().then(deck => {
-        fateDeckCards = deck.cards;
-        let deckSize  = fateDeckCards.length
+        fateDeckCards_All = deck.cards;
+        let deckSize  = fateDeckCards_All.length
 
+        fateDeckCards_All.forEach(card => {
+            
+            // Here we create sub groups based on Card Group type (Null, Fighter, World)
+            switch(card.group)
+            {
+                case "null":
+                    allNullCards.push(card); break;
+                case "fighter":
+                    allFighterCards.push(card); break;
+                case "world":
+                    allWorldCards.push(card); break;
+                    default:
+                        console.error("Error Sorting Cards into Groups");
+            }
+
+            
+            switch(card.rarity)
+            {
+                case "rare":
+                    rareFateDeckCards.push(card);
+                    break;
+                case "uncommon" :
+                    uncommonFateDeckCards.push(card);
+                    break;
+                case "common" :
+                    commonFateDeckCards.push(card);
+                    break;
+                default : commonFateDeckCards.push(card);
+            }
+        });
+
+        
+
+        let placedRareCards = 0;
+        let placedUncommonCards = 0;
+        let placedCommonCards = 0;
+        let finalDeck = [];
+
+        //The process we need
+        // First, get seperate groups of null, world and figher effect cards
+        // Then, within each group we need to build the contents of the null, world and fighter in the end deck
+        // A full deck will have null : 8, fighter : 10, world : 6
+        // null should have a decided distribution within that 8,
+        // A rare in null is 10%, an uncommon is 30%, a common is 60%
+        // Within 8 null, 8 / 0.10 = Rare dist, 8 / 0.30 = Unc Dist, 8 / 0.60 = Com Dist
+
+        let nullDist = getGroupDistribution(allNullCards.length);
+        console.log("Null: " + nullDist.rare + ", " + nullDist.uncommon + ", " + nullDist.common);
+      
+
+        //First, create the size of the deck goal (24 is standard)
+        let goalDeckSize = STANDARD_DECK_TYPES.null + STANDARD_DECK_TYPES.fighter + STANDARD_DECK_TYPES.world;
+
+        //Now, Get the distribution of rarities across the deck size
+        let deckRatios = getGroupDistribution(goalDeckSize);
+        let rareLimit = deckRatios.rare;
+        let uncommonLimit = deckRatios.uncommon;
+        let commonLimit = deckRatios.common;
+
+        console.log("Rare: " + rareLimit + ", Unc: " + uncommonLimit + ", Com: " + commonLimit);
+
+
+
+
+
+
+
+
+        for(let i = 0; i < STANDARD_DECK.rare; i++)
+        {
+            let randomInt = ChooseFateCard(rareFateDeckCards.length);
+            finalDeck.push(rareFateDeckCards[randomInt]);
+        }
+
+        for(let i = 0; i < STANDARD_DECK.uncommon; i++)
+        {
+            let randomInt = ChooseFateCard(uncommonFateDeckCards.length);
+            finalDeck.push(uncommonFateDeckCards[randomInt]);
+        }
+
+        for(let i = 0; i < STANDARD_DECK.common; i++)
+        {
+            let randomInt = ChooseFateCard(commonFateDeckCards.length);
+            finalDeck.push(commonFateDeckCards[randomInt]);
+        }
+
+
+
+        
+
+        let finalDeckSize = finalDeck.length;
+
+        console.log(finalDeckSize);
+
+        
         fateDeckStack.addEventListener("click", (e) => {
             e.preventDefault();
-            let newCardNumber = ChooseFateCard(deckSize);
-            let chosenCard = fateDeckCards[newCardNumber]
+            let newCardNumber = ChooseFateCard(finalDeckSize);
+            let chosenCard = finalDeck[newCardNumber]
     
             fateDeckGroup.textContent = `${chosenCard.group}`;
             fateDeckTitle.textContent = `${chosenCard.name}`;
@@ -308,6 +450,35 @@ function makeClass({ weight, range, spread, name }) {
 
       });
 
+    function getGroupDistribution(groupSize) {
+        const ratios = {
+            common: 0.60,
+            uncommon: 0.30,
+            rare: 0.10
+        };
+    
+        // Initial counts
+        let counts = {
+            common: Math.floor(groupSize * ratios.common),
+            uncommon: Math.floor(groupSize * ratios.uncommon),
+            rare: Math.floor(groupSize * ratios.rare),
+        };
+    
+        // Handle rounding leftovers
+        let total = counts.common + counts.uncommon + counts.rare;
+        let remainder = groupSize - total;
+    
+        // Distribute leftovers to the largest categories first
+        const order = ["common", "uncommon", "rare"];
+        let i = 0;
+        while (remainder > 0) {
+            counts[order[i % order.length]]++;
+            remainder--;
+            i++;
+        }
+    
+        return counts;
+    }
     
 
     
@@ -315,7 +486,7 @@ function makeClass({ weight, range, spread, name }) {
 
     function ChooseFateCard(deckSize)
     {
-        let number = 1 + Math.floor(Math.random()*deckSize);
+        let number = Math.floor(Math.random()*deckSize);
         return number;
     }
 
@@ -329,18 +500,17 @@ function makeClass({ weight, range, spread, name }) {
 
         classCard.dataset.classID = newClass;
 
-        let className = createStat("h3", newClass.name, classCard);
-        let classHealth = createStat("p", "HLTH: " + newClass.stats.health, classCard);
-        let classMove = createStat("p", "MOV: " + newClass.stats.move, classCard);
-        let classHit = createStat("p", "HIT: " + newClass.stats.atk_Hit, classCard);
-        let classEvade = createStat("p", "DEF: " + newClass.stats.atk_Evade, classCard);
+        createStat("h3", newClass.name, classCard);
+        createStat("p", "HLTH: " + newClass.stats.health, classCard);
+        createStat("p", "MOV: " + newClass.stats.move, classCard);
+        createStat("p", "HIT: " + newClass.stats.atk_Hit, classCard);
+        createStat("p", "DEF: " + newClass.stats.atk_Evade, classCard);
 
-        let classAttack_Damage = createStat("p" , "DAMAGE: " + newClass.stats.atk_Damage,classCard);
-        let classAttack_Range = createStat("p", "RANGE: " + newClass.stats.atk_Range, classCard);
-        let splashType = newClass.stats.atk_Splash === 0 ? "." : "+";
-        
+        createStat("p" , "DAMAGE: " + newClass.stats.atk_Damage,classCard);
+        createStat("p", "RANGE: " + newClass.stats.atk_Range, classCard);
+        let splashType = newClass.stats.atk_Splash === 0 ? "FOCUS" : "SPLASH";
 
-        let classSplash = createStat("p", "SPLASH: " + splashType, classCard);
+        createStat("p", "TYPE: " + splashType, classCard);
        
 
         classCard.addEventListener('click', (e) =>
@@ -367,22 +537,25 @@ function makeClass({ weight, range, spread, name }) {
             while (slot2El.firstChild) slot2El.removeChild(slot2El.lastChild);
 
             createStat("h3", chosen[1].name, slot1El);
-            createStat("p", "Health: " + chosen[1].stats.health, slot1El);
-            createStat("p", "Move: " + chosen[1].stats.move, slot1El);
-            createStat("p", "Atk_Damage: " + chosen[1].stats.atk_Damage, slot1El);
-            createStat("p", "Atk_Splash: " + chosen[1].stats.atk_Splash, slot1El);
-            createStat("p", "Atk_Range: " + chosen[1].stats.atk_Range, slot1El);
-            createStat("p", "Hit: " + chosen[1].stats.atk_Hit, slot1El);
-            createStat("p", "Evade: " + chosen[1].stats.atk_Evade, slot1El);
+            createStat("p", "HEALTH: " + chosen[1].stats.health, slot1El);
+            createStat("p", "MOV: " + chosen[1].stats.move, slot1El);
+            createStat("p", "HIT: " + chosen[1].stats.atk_Hit, slot1El);
+            createStat("p", "DEF: " + chosen[1].stats.atk_Evade, slot1El);
+            createStat("p", "DAMAGE: " + chosen[1].stats.atk_Damage, slot1El);
+            createStat("p", "RANGE: " + chosen[1].stats.atk_Range, slot1El);
+            let splashType1 = chosen[1].stats.atk_Splash === 0 ? "FOCUS" : "SPLASH";
+            createStat("p", "TYPE: " + splashType1, slot1El);
 
             createStat("h3", chosen[2].name, slot2El);
-            createStat("p", "Health: " + chosen[2].stats.health, slot2El);
-            createStat("p", "Move: " + chosen[2].stats.move, slot2El);
-            createStat("p", "Atk_Damage: " + chosen[2].stats.atk_Damage, slot2El);
-            createStat("p", "Atk_Splash: " + chosen[2].stats.atk_Splash, slot2El);
-            createStat("p", "Atk_Range: " + chosen[2].stats.atk_Range, slot2El);
-            createStat("p", "Hit: " + chosen[2].stats.atk_Hit, slot2El);
-            createStat("p", "Evade: " + chosen[2].stats.atk_Evade, slot2El);
+            createStat("p", "HEALTH: " + chosen[2].stats.health, slot2El);
+            createStat("p", "MOV: " + chosen[2].stats.move, slot2El);
+            createStat("p", "HIT: " + chosen[2].stats.atk_Hit, slot2El);
+            createStat("p", "DEF: " + chosen[2].stats.atk_Evade, slot2El);
+            createStat("p", "DAMAGE: " + chosen[2].stats.atk_Damage, slot2El);
+            createStat("p", "RANGE: " + chosen[2].stats.atk_Range, slot2El);    
+
+            let splashType2 = chosen[2].stats.atk_Splash === 0 ? "FOCUS" : "SPLASH";
+            createStat("p", "TYPE: " + splashType1, slot2El);
         }
         else
         {
@@ -393,13 +566,18 @@ function makeClass({ weight, range, spread, name }) {
         // re-render that slot’s contents
         while (currentSlotEl.firstChild) currentSlotEl.removeChild(currentSlotEl.lastChild);
         createStat("h3", newClass.name, currentSlotEl);
-        createStat("p", "Health: " + newClass.stats.health, currentSlotEl);
-        createStat("p", "Move: " + newClass.stats.move, currentSlotEl);
-        createStat("p", "Atk_Damage: " + newClass.stats.atk_Damage, currentSlotEl);
-        createStat("p", "Atk_Splash: " + newClass.stats.atk_Splash, currentSlotEl);
-        createStat("p", "Atk_Range: " + newClass.stats.atk_Range, currentSlotEl);
-        createStat("p", "Hit: " + newClass.stats.atk_Hit, currentSlotEl);
-        createStat("p", "Evade: " + newClass.stats.atk_Evade, currentSlotEl);
+        createStat("p", "HEALTH: " + newClass.stats.health, currentSlotEl);
+        createStat("p", "MOV: " + newClass.stats.move, currentSlotEl);
+        createStat("p", "HIT: " + newClass.stats.atk_Hit, currentSlotEl);
+        createStat("p", "DEF: " + newClass.stats.atk_Evade, currentSlotEl);
+        createStat("p", "DAMAGE: " + newClass.stats.atk_Damage, currentSlotEl);
+        createStat("p", "RANGE: " + newClass.stats.atk_Range, currentSlotEl);
+        
+
+        let splashType = newClass.stats.atk_Splash === 0 ? "FOCUS" : "SPLASH";
+            createStat("p", "TYPE: " + splashType,  currentSlotEl);
+        
+        
         }
 
         
