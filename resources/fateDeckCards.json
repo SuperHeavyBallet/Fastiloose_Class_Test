@@ -155,7 +155,69 @@
         "group": "fighter",
         "rarity": "rare",
         "description": "This player attacks first for this round. If the Drawer of this card is already first, one fighter is allowed two attacks this turn with separate HIT and DEF rolls, but only on one target. This effect overrides any other turn-altering effects."
+      },
+      {
+        "name": "Double Boost",
+        "group": "fighter",
+        "rarity": "uncommon",
+        "description": "Two of your fighters receive +1 HEALTH. (If only one fighter remains, that fighter receives +2 Health.)"
+      },
+      {
+        "name": "Double Double Tap",
+        "group": "fighter",
+        "rarity": "uncommon",
+        "description": "Two of your fighters may attack twice in this turn. (If only one fighter remains, that fighter gains +2 Hit for this turn.)"
+      },
+      {
+        "name": "Tripped and Left Open",
+        "group": "fighter",
+        "rarity": "uncommon",
+        "description": "One of your fighters loses -2 DEF until their next defence roll."
+      },
+      {
+        "name": "A Burst of Energy",
+        "group": "fighter",
+        "rarity": "uncommon",
+        "description": "One of your fighters may move 1 Extra square in any direction."
+      },
+      {
+        "name": "A Blinding Storm",
+        "group": "world",
+        "rarity": "uncommon",
+        "description": "No fighters on the field can attack at a Range greater than 3 Squares."
+      },
+      {
+        "name": "A Friendly Breeze",
+        "group": "world",
+        "rarity": "common",
+        "description": "You may move one of your fighters 1 square in any direction."
+      },
+      {
+        "name": "A Static Shock",
+        "group": "world",
+        "rarity": "common",
+        "description": "One of your fighters takes a fixed HIT: 2 attack and must roll a defence against it, DAMAGE: 1 if successful."
       }
     ]
   }
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
   

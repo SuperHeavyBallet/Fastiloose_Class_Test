@@ -175,80 +175,30 @@ function makeClass({ weight, range, spread, name }) {
 
 
   // Example: Heavy, Long, Narrow (Heavy Archer)
-  const heavyArcher = makeClass({
+  const HEAVY_MARKSMAN = makeClass({
     weight: WEIGHT.HEAVY,
     range:  ATK_RANGE.LONG,
     spread: ATK_SPREAD.NARROW,
     name:   "Heavy Marksman"
   });
 
-  const lightArcher = makeClass({
+  const LIGHT_MARKSMAN = makeClass({
     weight: WEIGHT.LIGHT,
     range: ATK_RANGE.LONG,
     spread: ATK_SPREAD.NARROW,
     name: "Light Marksman"
   });
 
-  const heavyBomber = makeClass({
-    weight: WEIGHT.HEAVY,
-    range:  ATK_RANGE.LONG,
-    spread: ATK_SPREAD.BROAD,
-    name:   "Heavy Grenadier"
-  });
 
-  const lightBomber = makeClass({
-    weight: WEIGHT.LIGHT,
-    range:  ATK_RANGE.LONG,
-    spread: ATK_SPREAD.BROAD,
-    name:   "Light Grenadier"
-  });
-
-  const heavyDuelist = makeClass({
-    weight: WEIGHT.HEAVY,
-    range:  ATK_RANGE.CLOSE,
-    spread: ATK_SPREAD.NARROW,
-    name:   "Heavy Duelist"
-  });
-
-  const lightDuelist = makeClass({
-    weight: WEIGHT.LIGHT,
-    range: ATK_RANGE.CLOSE,
-    spread: ATK_SPREAD.NARROW,
-    name: "Light Duelist"
-  });
-
-  const heavyBrawler = makeClass({
-    weight: WEIGHT.HEAVY,
-    range:  ATK_RANGE.CLOSE,
-    spread: ATK_SPREAD.BROAD,
-    name:   "Heavy Bruiser"
-  });
-
-  const lightBrawler = makeClass({
-    weight: WEIGHT.LIGHT,
-    range:  ATK_RANGE.CLOSE,
-    spread: ATK_SPREAD.BROAD,
-    name:   "Light Bruiser"
-  });
+ 
 
  
 
   document.addEventListener('DOMContentLoaded', () =>
   {
-    /*
-    createNewCard(heavyArcher);
-    createNewCard(lightArcher);
-    createNewCard(heavyBomber);
-    createNewCard(lightBomber);
-    createNewCard(heavyDuelist);
-    createNewCard(lightDuelist);
-    createNewCard(heavyBrawler);
-    createNewCard(lightBrawler);*/
 
     const allBoardSquares = generateNewBoard(8);
-  
-
-    
+ 
    // DOM elements (never reassign these)
     const slot1El = document.getElementById("class1");
     const slot2El = document.getElementById("class2");
@@ -258,8 +208,8 @@ function makeClass({ weight, range, spread, name }) {
 
     // The currently chosen unit for each slot (game data)
     const chosen = {
-        1: heavyArcher,
-        2: lightArcher
+        1: HEAVY_MARKSMAN,
+        2: LIGHT_MARKSMAN
     };
 
     
@@ -283,6 +233,7 @@ function makeClass({ weight, range, spread, name }) {
     const fateDeckTitle = document.getElementById("fateDeckTitle");
     const fateDeckGroup = document.getElementById("fateDeckGroup");
     const fateDeckDescription = document.getElementById("fateDeckDescription");
+    const fateDeckRarity = document.getElementById("fateDeckRarity");
 
     function getCharClasses(){
         return fetch('resources/charClasses.json').then(res => res.json());
@@ -297,11 +248,6 @@ function makeClass({ weight, range, spread, name }) {
         characterClasses.forEach((charClass) => {
            
 
-
-           
-            
-            
-         
             let newClass = makeClass(
                 {
                     weight: WEIGHT[toKey(charClass.weight)],
@@ -322,15 +268,18 @@ function makeClass({ weight, range, spread, name }) {
     })
 
     let fateDeckCards_All = [];
-    let rareFateDeckCards = [];
-    let uncommonFateDeckCards = [];
-    let commonFateDeckCards = [];
-    const STANDARD_DECK = { rare : 1, uncommon : 3, common : 5};
-    const STANDARD_DECK_TYPES = {null : 8, fighter : 10, world : 6};
+    let chaoticFateDeck = [];
+    let quietChaosFateDeck = [];
+    let balancedFateDeck = [];
+    let workingFateDeck = [];
 
     let allNullCards = [];
     let allWorldCards = [];
     let allFighterCards = [];
+    const STANDARD_DECK_SIZE = 24;
+    const STANDARD_NULL_SIZE = 6;
+    const STANDARD_FIGHTER_SIZE = 10;
+    const STANDARD_WORLD_SIZE = 8;
 
     function getFateDeck() {
         return fetch('resources/fateDeckCards.json').then(res => res.json());
@@ -339,8 +288,24 @@ function makeClass({ weight, range, spread, name }) {
       // Usage
       getFateDeck().then(deck => {
         fateDeckCards_All = deck.cards;
-        let deckSize  = fateDeckCards_All.length
+        
+       
 
+        for (let i = 0; i < STANDARD_DECK_SIZE; i++)
+        {
+            let randomInt = ChooseFateCard(chaoticFateDeck.length);
+            chaoticFateDeck.push(fateDeckCards_All[randomInt]);
+        }
+
+        console.log("CHAOTIC FATE");
+        console.log(chaoticFateDeck);
+
+        // Creating Organised Fate Decks
+
+        
+
+
+        
         fateDeckCards_All.forEach(card => {
             
             // Here we create sub groups based on Card Group type (Null, Fighter, World)
@@ -356,92 +321,148 @@ function makeClass({ weight, range, spread, name }) {
                         console.error("Error Sorting Cards into Groups");
             }
 
-            
-            switch(card.rarity)
+        });
+
+
+
+        // Creating Quiet Chaos Fate Deck
+
+        let quietChaosNullCards =[];
+        buildQuietChaosDeck(quietChaosFateDeck, STANDARD_NULL_SIZE, allNullCards);
+        let quietChaosFighterCards = [];
+        buildQuietChaosDeck(quietChaosFateDeck, STANDARD_FIGHTER_SIZE, allFighterCards)
+        let quietChaosWorldCards = [];
+        buildQuietChaosDeck(quietChaosFateDeck, STANDARD_WORLD_SIZE, allWorldCards);
+
+        function buildQuietChaosDeck(endDeck, typeSize, sourceCards)
+        {
+          
+
+            for (let i = 0; i < typeSize; i++)
             {
-                case "rare":
-                    rareFateDeckCards.push(card);
-                    break;
-                case "uncommon" :
-                    uncommonFateDeckCards.push(card);
-                    break;
-                case "common" :
-                    commonFateDeckCards.push(card);
-                    break;
-                default : commonFateDeckCards.push(card);
+                let randomInt = ChooseFateCard(sourceCards.length);
+                endDeck.push(sourceCards[randomInt]);
             }
+            
+
+        }
+
+        console.log("QUIET CHAOS");
+        console.log(quietChaosFateDeck);
+     
+
+        
+        // Creating Order Chaost Fate Deck
+
+        let sortedNullCards = [];
+        let sortedFighterCards = [];
+        let sortedWorldCards = [];
+
+        let nullCardRarityDistribution =  { common: 6, uncommon: 0, rare: 0 };
+        let fighterCardRarityDistribution = getGroupDistribution(STANDARD_FIGHTER_SIZE);
+        let worldCardRarityDistribution = getGroupDistribution(STANDARD_WORLD_SIZE);
+
+
+        let sortedRarityNullCards = {
+            common : GetCardsByRarity(allNullCards, "common"),
+            uncommon : null,
+            rare : null,
+        }
+
+        let sortedRarityFighterCards = {
+            common : GetCardsByRarity(allFighterCards, "common"),
+            uncommon : GetCardsByRarity(allFighterCards, "uncommon"),
+            rare : GetCardsByRarity(allFighterCards, "rare"),
+        }
+
+        let sortedRarityWorldCards = {
+            common : GetCardsByRarity(allWorldCards, "common"),
+            uncommon : GetCardsByRarity(allWorldCards, "uncommon"),
+            rare : GetCardsByRarity(allWorldCards, "rare"),
+        }
+
+        function GetCardsByRarity(inputGroup, rarity)
+        {
+            let rarityGroup = [];
+
+            for(let i = 0; i < inputGroup.length; i++)
+            {
+                if(inputGroup[i].rarity === rarity)
+                {
+                    rarityGroup.push(inputGroup[i]);
+                }
+            }
+
+            return rarityGroup;
+        }
+
+  
+
+        SortCardsRandomByRarity(nullCardRarityDistribution.common, sortedRarityNullCards.common, sortedNullCards);
+
+        SortCardsRandomByRarity(fighterCardRarityDistribution.common, sortedRarityFighterCards.common, sortedFighterCards);
+        SortCardsRandomByRarity(fighterCardRarityDistribution.uncommon, sortedRarityFighterCards.uncommon, sortedFighterCards);
+        SortCardsRandomByRarity(fighterCardRarityDistribution.rare, sortedRarityFighterCards.rare, sortedFighterCards);
+
+        SortCardsRandomByRarity(worldCardRarityDistribution.common, sortedRarityWorldCards.common, sortedWorldCards);
+        SortCardsRandomByRarity(worldCardRarityDistribution.uncommon, sortedRarityWorldCards.uncommon, sortedWorldCards);
+        SortCardsRandomByRarity(worldCardRarityDistribution.rare, sortedRarityWorldCards.rare, sortedWorldCards);
+
+        function SortCardsRandomByRarity(typeRarityCount, sortedCardsRarity, endCardTypes)
+        {
+
+        
+            for(let i = 0; i < typeRarityCount; i++)
+            {
+                let randomInt = ChooseFateCard(sortedCardsRarity.length);
+                endCardTypes.push(sortedCardsRarity[randomInt]);
+            }
+        }
+
+        let balancedFateDeck = sortedNullCards.concat(sortedFighterCards, sortedWorldCards);
+        console.log("BALANCED FATE");
+        console.log(balancedFateDeck);
+
+        let finalDeck = chaoticFateDeck;
+
+        let chaosFateButton = document.getElementById("chaosFateButton");
+        let quietFateButton = document.getElementById("quietFateButton");
+        let balancedFateButton = document.getElementById("balancedFateButton");
+        let deckTypeText = document.getElementById("deckTypeText");
+
+        chaosFateButton.addEventListener("click", (e) => {
+            e.preventDefault();
+
+            deckTypeText.textContent = "CHAOS";
+            finalDeck = chaoticFateDeck;
+        });
+
+        quietFateButton.addEventListener("click", (e) => {
+            e.preventDefault();
+
+            deckTypeText.textContent = "QUIET";
+            finalDeck = quietChaosFateDeck;
+        });
+
+        balancedFateButton.addEventListener("click", (e) => {
+            e.preventDefault();
+
+            deckTypeText.textContent = "BALANCE";
+            finalDeck = balancedFateDeck;
         });
 
         
 
-        let placedRareCards = 0;
-        let placedUncommonCards = 0;
-        let placedCommonCards = 0;
-        let finalDeck = [];
-
-        //The process we need
-        // First, get seperate groups of null, world and figher effect cards
-        // Then, within each group we need to build the contents of the null, world and fighter in the end deck
-        // A full deck will have null : 8, fighter : 10, world : 6
-        // null should have a decided distribution within that 8,
-        // A rare in null is 10%, an uncommon is 30%, a common is 60%
-        // Within 8 null, 8 / 0.10 = Rare dist, 8 / 0.30 = Unc Dist, 8 / 0.60 = Com Dist
-
-        let nullDist = getGroupDistribution(allNullCards.length);
-        console.log("Null: " + nullDist.rare + ", " + nullDist.uncommon + ", " + nullDist.common);
-      
-
-        //First, create the size of the deck goal (24 is standard)
-        let goalDeckSize = STANDARD_DECK_TYPES.null + STANDARD_DECK_TYPES.fighter + STANDARD_DECK_TYPES.world;
-
-        //Now, Get the distribution of rarities across the deck size
-        let deckRatios = getGroupDistribution(goalDeckSize);
-        let rareLimit = deckRatios.rare;
-        let uncommonLimit = deckRatios.uncommon;
-        let commonLimit = deckRatios.common;
-
-        console.log("Rare: " + rareLimit + ", Unc: " + uncommonLimit + ", Com: " + commonLimit);
-
-
-
-
-
-
-
-
-        for(let i = 0; i < STANDARD_DECK.rare; i++)
-        {
-            let randomInt = ChooseFateCard(rareFateDeckCards.length);
-            finalDeck.push(rareFateDeckCards[randomInt]);
-        }
-
-        for(let i = 0; i < STANDARD_DECK.uncommon; i++)
-        {
-            let randomInt = ChooseFateCard(uncommonFateDeckCards.length);
-            finalDeck.push(uncommonFateDeckCards[randomInt]);
-        }
-
-        for(let i = 0; i < STANDARD_DECK.common; i++)
-        {
-            let randomInt = ChooseFateCard(commonFateDeckCards.length);
-            finalDeck.push(commonFateDeckCards[randomInt]);
-        }
-
-
-
         
 
-        let finalDeckSize = finalDeck.length;
 
-        console.log(finalDeckSize);
-
-        
         fateDeckStack.addEventListener("click", (e) => {
             e.preventDefault();
-            let newCardNumber = ChooseFateCard(finalDeckSize);
+            let newCardNumber = ChooseFateCard(finalDeck.length);
             let chosenCard = finalDeck[newCardNumber]
     
             fateDeckGroup.textContent = `${chosenCard.group}`;
+            fateDeckRarity.textContent = `${chosenCard.rarity}`;
             fateDeckTitle.textContent = `${chosenCard.name}`;
             fateDeckDescription.textContent = `${chosenCard.description}`;
     
@@ -475,6 +496,12 @@ function makeClass({ weight, range, spread, name }) {
             counts[order[i % order.length]]++;
             remainder--;
             i++;
+        }
+
+        if(counts.rare == 0)
+        {
+            counts.rare = 1;
+            counts.uncommon = counts.uncommon -1;
         }
     
         return counts;

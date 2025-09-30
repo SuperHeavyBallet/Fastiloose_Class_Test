@@ -81,6 +81,18 @@
     background-color: rgb(72, 182, 96);
 }
 
+.fate-deck-types{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+
+}
+
+.fate-deck-types button{
+    width: 30%;
+}
 
 .fate-deck{
     border: 1px solid black;
@@ -98,4 +110,14 @@
 
 .fate-deck:hover{
     cursor: pointer;
+}
+
+.deck-type-text{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    margin-bottom: 1rem;
+    margin-top: 1rem;
 }
