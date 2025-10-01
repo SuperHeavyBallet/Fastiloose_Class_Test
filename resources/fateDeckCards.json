@@ -197,7 +197,15 @@
         "group": "world",
         "rarity": "common",
         "description": "One of your fighters takes a fixed HIT: 2 attack and must roll a defence against it, DAMAGE: 1 if successful."
+      },
+      {
+        "name": "A Trip and Wobble",
+        "group": "world",
+        "rarity": "common",
+        "description": "One of your fighters trips and loses 1 DEF for this turn."
       }
+
+      
     ]
   }
 
