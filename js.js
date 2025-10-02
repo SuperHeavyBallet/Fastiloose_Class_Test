@@ -288,14 +288,21 @@ function makeClass({ weight, range, spread, name }) {
       // Usage
       getFateDeck().then(deck => {
         fateDeckCards_All = deck.cards;
-        
-       
+      
 
-        for (let i = 0; i < STANDARD_DECK_SIZE; i++)
-        {
-            let randomInt = ChooseFateCard(chaoticFateDeck.length);
-            chaoticFateDeck.push(fateDeckCards_All[randomInt]);
+        let indexes = [...Array(fateDeckCards_All.length).keys()]; // [0,1,2,...,N-1]
+
+        // Fisher–Yates shuffle
+        for (let i = indexes.length - 1; i > 0; i--) {
+        let j = Math.floor(Math.random() * (i + 1));
+        [indexes[i], indexes[j]] = [indexes[j], indexes[i]];
         }
+
+        // Take the first STANDARD_DECK_SIZE indexes
+        let selectedIndexes = indexes.slice(0, STANDARD_DECK_SIZE);
+
+        // Build your deck
+        let chaoticFateDeck = selectedIndexes.map(i => fateDeckCards_All[i]);
 
         console.log("CHAOTIC FATE");
         console.log(chaoticFateDeck);
